@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-album-form',
@@ -6,11 +6,11 @@ import { Component, OnInit } from '@angular/core';
     <div class="card-block">
           <div class="form-group">
             <label>Nazwa:</label>
-            <input type="text" [(ngModel)]="selected.name" class="form-control">
+            <input type="text" [(ngModel)]="album.name" class="form-control">
           </div> 
           <div class="form-group">
             <label>Rok:</label>
-            <input type="number" [(ngModel)]="selected.year" disabled class="form-control">
+            <input type="number" [(ngModel)]="album.year" disabled class="form-control">
           </div>
           <div class="form-group">
             <label>Typ:</label>
@@ -27,7 +27,7 @@ import { Component, OnInit } from '@angular/core';
           </div>
           <div class="form-group">
             <label>
-            <input type="checkbox" [(ngModel)]="selected.favourite"> Favourite</label>
+            <input type="checkbox" [(ngModel)]="album.favourite"> Favourite</label>
           </div>
           <div class="form-group">
             <button class="btn btn-success float-md-right float-xs-right" (click)="save($event)">Zapisz</button>
@@ -38,9 +38,43 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumFormComponent implements OnInit {
 
+  @Input()
+  album;
+  
+    
+  label = "Wybierz";
+  typeSelected = false;
+
+   conf = {
+   adult: '#F0E68C',
+   child: '#ADD8E6',
+   nature: '#90EE90'
+  }
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  toggleSelected(){
+     this.typeSelected =! this.typeSelected;
+  }
+  
+  getColor(label){
+    if(label === 'Dorosły'){
+       return this.conf.adult;
+    } else if(label === 'Dziecko'){
+       return this.conf.child;
+    } else if(label === 'Natura'){
+       return this.conf.nature;
+    }
+  }
+  
+  setType(label){
+    this.label = label;
+    this.album.type = label;
+    this.album.color = this.getColor(label)   
+    this.toggleSelected();
+  }
+  
 }
