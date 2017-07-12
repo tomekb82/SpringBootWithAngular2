@@ -32,28 +32,16 @@
     <div class="col-md-5 col-xs">
      
     <div [ngSwitch]="mode">
-      <div class="card" *ngSwitchDefault>
-        <div class="card-block">
-          <h4 class="card-title">Album</h4>
-          <p class="card-text">Wybierz album</p>
-        </div>    
-      </div>
-      
-      <div class="card" *ngSwitchCase="'selected'">
-        <div class="card-block">
-          <h4 class="card-title">Album "{{selected.name}}"</h4>
-          <p class="card-text">Wybrany album</p>
+      <app-album-header title="Album" message="Wybierz album" *ngSwitchDefault></app-album-header>
+         
+      <app-album-header title="Album {{selected.name}}" message="Wybrany album" *ngSwitchCase="'selected'">
           <div class="form-group">
             <button class="btn btn-default float-md-right float-xs-right" (click)="edit(selected)">Edytuj</button>
           </div>
-        </div>     
-      </div>
+      </app-album-header>
       
-      <div class="card" *ngSwitchCase="'edit'" [style.backgroundColor]="selected.color">
-        <div class="card-block">
-          <h4 class="card-title">Album</h4>
-          <p class="card-text">Opis albumu</p>
-        </div>
+     
+      <app-album-header title="Album {{selected.name}} - edycja" message="Opis albumu" *ngSwitchCase="'edit'">
 
         <div class="card-block">
           <div class="form-group">
@@ -85,7 +73,9 @@
             <button class="btn btn-success float-md-right float-xs-right" (click)="save($event)">Zapisz</button>
             </div>
         </div>
-      </div>
+    </app-album-header>
+         
+    
       
         </div>  
     </div>

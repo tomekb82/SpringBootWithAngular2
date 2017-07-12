@@ -84,6 +84,7 @@ export class AlbumComponent implements OnInit {
     var newPlaylist = {};
     this.selected = newPlaylist;
     this.edited = newPlaylist;
+    this.label = "Wybierz";
   }
 
 }

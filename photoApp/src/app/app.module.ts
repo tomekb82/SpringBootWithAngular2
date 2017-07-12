@@ -6,12 +6,16 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AlbumComponent } from './album/album.component';
+import { AlbumHeaderComponent } from './album/album-header.component';
+import { AlbumFormComponent } from './album/album-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    AlbumComponent
+    AlbumComponent,
+    AlbumHeaderComponent,
+    AlbumFormComponent
   ],
   imports: [
     BrowserModule,
