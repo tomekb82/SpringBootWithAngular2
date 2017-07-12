@@ -1,0 +1,92 @@
+<div class="row mt-1">
+    <div class="col-md-7 col-xs">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th> # </th>
+                    <th> Nazwa </th>
+                     <th> Typ </th>
+                    <th> Rok </th>
+                    <th> Ulubiona </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let album of albums; let i = index"
+                    class="album-row" 
+                   [ngClass]="{'table-active': selected == album}" 
+                   [ngStyle]="{borderBottomColor:album.color}"
+                    (click)="select(album)"        >
+                    <td> {{ i + 1 }}. </td>
+                    <td> {{album.name}} </td>
+                     <td> {{album.type}} </td>
+                    <td> {{album.year}} </td>
+                    <td> <label><input type="checkbox" [(ngModel)]="album.favourite"
+                    (click)="$event.stopPropagation();">Ulubiona</label> </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+        <button class="btn btn-success float-md-right float-xs-right"     (click)="createNew($event)">Nowy album</button>
+      </div>
+    </div>
+    <div class="col-md-5 col-xs">
+     
+    <div [ngSwitch]="mode">
+      <div class="card" *ngSwitchDefault>
+        <div class="card-block">
+          <h4 class="card-title">Album</h4>
+          <p class="card-text">Wybierz album</p>
+        </div>    
+      </div>
+      
+      <div class="card" *ngSwitchCase="'selected'">
+        <div class="card-block">
+          <h4 class="card-title">Album "{{selected.name}}"</h4>
+          <p class="card-text">Wybrany album</p>
+          <div class="form-group">
+            <button class="btn btn-default float-md-right float-xs-right" (click)="edit(selected)">Edytuj</button>
+          </div>
+        </div>     
+      </div>
+      
+      <div class="card" *ngSwitchCase="'edit'" [style.backgroundColor]="selected.color">
+        <div class="card-block">
+          <h4 class="card-title">Album</h4>
+          <p class="card-text">Opis albumu</p>
+        </div>
+
+        <div class="card-block">
+          <div class="form-group">
+            <label>Nazwa:</label>
+            <input type="text" [(ngModel)]="selected.name" class="form-control">
+          </div> 
+          <div class="form-group">
+            <label>Rok:</label>
+            <input type="number" [(ngModel)]="selected.year" disabled class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Typ:</label>
+             <div class="dropdown" [class.show]="typeSelected">
+                  <button (click)="toggleSelected()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{label}}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a (click)="setType('Dorosły')" class="dropdown-item" href="#">Dorosły</a>
+                        <a (click)="setType('Dziecko')" class="dropdown-item" href="#">Dziecko</a>
+                        <a (click)="setType('Natura')" class="dropdown-item" href="#">Natura</a>
+                  </div>
+                </div>
+          </div>
+          <div class="form-group">
+            <label>
+            <input type="checkbox" [(ngModel)]="selected.favourite"> Favourite</label>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success float-md-right float-xs-right" (click)="save($event)">Zapisz</button>
+            </div>
+        </div>
+      </div>
+      
+        </div>  
+    </div>
+  </div>
