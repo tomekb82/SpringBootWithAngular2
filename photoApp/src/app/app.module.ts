@@ -6,8 +6,6 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AlbumModule } from './album/album.module'
-import { AlbumService } from './album/album.service';
-
 
 @NgModule({
   declarations: [
@@ -20,10 +18,7 @@ import { AlbumService } from './album/album.service';
     HttpModule,
     AlbumModule
   ],
-  providers: [
-    //{provide: AlbumService, useClass: ExtendedAlbumService }
-    AlbumService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

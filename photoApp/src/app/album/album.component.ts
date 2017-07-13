@@ -41,28 +41,16 @@ export class AlbumComponent implements OnInit {
 
   createNew(){
     this.mode = "edit";
-    var newAlbum = {
-        name: '',
-        year: 0,
-        type: '',
-        favourite: false,
-    };
+    let newAlbum = this.albumService.create();
     this.selected = newAlbum;
-    this.edited = Object.assign({},newAlbum); // kopia obiektu
+    this.edited = newAlbum; 
   }
   
   save(album){
-    if(album.id){
-      let index = this.albums.findIndex((old_album)=>(
-        old_album.id === album.id
-      ))
-      this.albums.splice(index,1,album);
-      this.selected = album;
-      this.edited = Object.assign({},album); // kopia
-    }else{
-      album.id = Date.now(); // zainicjuj datą
-      this.albums.push(album);
-    }
+    this.albumService.save(album);
+    this.selected = album;
+    this.edited = Object.assign({},album); // kopia
   }
+  
 
 }

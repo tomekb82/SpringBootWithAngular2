@@ -7,6 +7,9 @@ import { AlbumCardComponent } from './album-card.component';
 import { AlbumFormComponent } from './album-form.component';
 import { AlbumDetailComponent } from './album-detail.component';
 import { AlbumListComponent } from './album-list.component'
+import { AlbumService } from './album.service';
+
+import albumData from './album.data'
 
 @NgModule({
   imports: [
@@ -22,6 +25,11 @@ import { AlbumListComponent } from './album-list.component'
   ],
   exports:[
     AlbumComponent
+  ],
+  providers:[
+    //{provide: AlbumService, useClass: ExtendedAlbumService }
+    AlbumService,
+    { provide: 'AlbumData', useValue: albumData }
   ]
 })
 export class AlbumModule { }
