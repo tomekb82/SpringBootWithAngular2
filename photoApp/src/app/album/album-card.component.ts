@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-album-header',
+  selector: 'app-album-card',
   template: `
     <div class="card" [style.backgroundColor]="color">
         <div class="card-block">
@@ -13,7 +13,7 @@ import { Component, OnInit, Input } from '@angular/core';
   `,
   styles: []
 })
-export class AlbumHeaderComponent implements OnInit {
+export class AlbumCardComponent implements OnInit {
 
   @Input()
   title = '';

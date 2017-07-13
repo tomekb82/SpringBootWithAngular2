@@ -1,53 +1,39 @@
 <div class="row mt-1">
+   
     <div class="col-md-7 col-xs">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th> # </th>
-                    <th> Nazwa </th>
-                     <th> Typ </th>
-                    <th> Rok </th>
-                    <th> Ulubiona </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let album of albums; let i = index"
-                    class="album-row" 
-                   [ngClass]="{'table-active': selected == album}" 
-                   [ngStyle]="{borderBottomColor:album.color}"
-                    (click)="select(album)"        >
-                    <td> {{ i + 1 }}. </td>
-                    <td> {{album.name}} </td>
-                     <td> {{album.type}} </td>
-                    <td> {{album.year}} </td>
-                    <td> <label><input type="checkbox" [(ngModel)]="album.favourite"
-                    (click)="$event.stopPropagation();">Ulubiona</label> </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="form-group">
+     
+      <app-album-list [albums]="albums" [selected]="selected" (selected)="select($event) "></app-album-list>
+      
+      <div class="form-group">
         <button class="btn btn-success float-md-right float-xs-right"     (click)="createNew($event)">Nowy album</button>
       </div>
+      
     </div>
+    
     <div class="col-md-5 col-xs">
      
-    <div [ngSwitch]="mode">
-      <app-album-header title="Album" message="Wybierz album" *ngSwitchDefault></app-album-header>
-         
-      <app-album-header title="Album {{selected.name}}" message="Wybrany album" *ngSwitchCase="'selected'">
-          <div class="form-group">
-            <button class="btn btn-default float-md-right float-xs-right" (click)="edit(selected)">Edytuj</button>
-          </div>
-      </app-album-header>
-      
+        <div [ngSwitch]="mode">
      
-      <app-album-header title="Album {{selected.name}} - edycja" message="Opis albumu" *ngSwitchCase="'edit'" [color]="selected.color">
-
-        <app-album-form [album]="selected"></app-album-form>
-    </app-album-header>
+            <app-album-card title="Album" *ngSwitchDefault> 
+                <p>Wybierz <b>album</b>!</p>
+            </app-album-card>
          
-    
-      
+            <app-album-card 
+               title="Album {{selected.name}}" 
+               message="Wybrany album" 
+               [color]="selected.color" 
+               *ngSwitchCase="'selected'"> 
+                <app-album-detail [album]="selected" (edit)="edit($event)"></app-album-detail>
+            </app-album-card>
+            
+            <app-album-card 
+                title="Album {{selected.name}} - edycja" 
+                message="Opis albumu" 
+                [color]="selected.color"
+                *ngSwitchCase="'edit'">
+                <app-album-form [album]="edited" (saved)="save($event)"></app-album-form>
+            </app-album-card>
+              
         </div>  
     </div>
-  </div>
+</div>

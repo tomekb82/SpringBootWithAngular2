@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlbumService } from './album.service'
+
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
@@ -7,36 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AlbumComponent implements OnInit {
 
-  constructor() { }
+  constructor(private albumService:AlbumService) {
+
+  }
 
   ngOnInit() {
+        this.albums = this.albumService.getAlbums();
   }
   
   selected = null;
 
   edited = {
-    
   }
   
   mode="none";
   
-  albums = [{
-    name: 'Moje zdjęcia',
-    year: 2015,
-    type: '',
-    favourite: false,
-  },
-  { name: 'Fotki z gór',
-    year: 2012,
-    type: '',
-    favourite: true,
-  }];
-  
-  
-  
-  save(event){
-  
-  }
+  albums = [];
   
   select(album){
     if(album !== this.selected){
@@ -47,16 +35,34 @@ export class AlbumComponent implements OnInit {
 
   edit(album){
     this.mode = "edit";
-    this.edited = album;
+    this.edited = Object.assign({},album); // kopia obiektu
     this.selected = album;
   }
 
   createNew(){
     this.mode = "edit";
-    var newPlaylist = {};
-    this.selected = newPlaylist;
-    this.edited = newPlaylist;
-    //this.label = "Wybierz";
+    var newAlbum = {
+        name: '',
+        year: 0,
+        type: '',
+        favourite: false,
+    };
+    this.selected = newAlbum;
+    this.edited = Object.assign({},newAlbum); // kopia obiektu
+  }
+  
+  save(album){
+    if(album.id){
+      let index = this.albums.findIndex((old_album)=>(
+        old_album.id === album.id
+      ))
+      this.albums.splice(index,1,album);
+      this.selected = album;
+      this.edited = Object.assign({},album); // kopia
+    }else{
+      album.id = Date.now(); // zainicjuj datą
+      this.albums.push(album);
+    }
   }
 
 }

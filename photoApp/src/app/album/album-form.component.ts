@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-album-form',
   template: `
-    <div class="card-block">
+        <div class="card-block">
           <div class="form-group">
             <label>Nazwa:</label>
             <input type="text" [(ngModel)]="album.name" class="form-control">
@@ -30,9 +30,9 @@ import { Component, OnInit, Input } from '@angular/core';
             <input type="checkbox" [(ngModel)]="album.favourite"> Favourite</label>
           </div>
           <div class="form-group">
-            <button class="btn btn-success float-md-right float-xs-right" (click)="save($event)">Zapisz</button>
+            <button class="btn btn-success float-md-right float-xs-right" (click)="save(album)">Zapisz</button>
             </div>
-        </div>
+        </div>  
   `,
   styles: []
 })
@@ -41,7 +41,13 @@ export class AlbumFormComponent implements OnInit {
   @Input()
   album;
   
-    
+  @Output('saved')
+  emitter = new EventEmitter();
+
+  save(album){
+    this.emitter.emit(album);
+  }
+  
   label = "Wybierz";
   typeSelected = false;
 
