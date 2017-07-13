@@ -41,7 +41,7 @@
       </app-album-header>
       
      
-      <app-album-header title="Album {{selected.name}} - edycja" message="Opis albumu" *ngSwitchCase="'edit'">
+      <app-album-header title="Album {{selected.name}} - edycja" message="Opis albumu" *ngSwitchCase="'edit'" [color]="selected.color">
 
         <app-album-form [album]="selected"></app-album-form>
     </app-album-header>

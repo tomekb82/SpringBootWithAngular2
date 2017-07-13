@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-album-header',
   template: `
-    <div class="card">
+    <div class="card" [style.backgroundColor]="color">
         <div class="card-block">
           <h4 class="card-title">{{title}}</h4>
           <p class="card-text">{{message}}</p>
@@ -20,6 +20,9 @@ export class AlbumHeaderComponent implements OnInit {
 
   @Input()
   message = '';
+
+  @Input()
+  color = 'white';
   
   constructor() { }
 

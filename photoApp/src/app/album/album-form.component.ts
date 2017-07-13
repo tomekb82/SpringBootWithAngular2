@@ -51,9 +51,11 @@ export class AlbumFormComponent implements OnInit {
    nature: '#90EE90'
   }
 
-  constructor() { }
+  constructor() {
+ }
 
   ngOnInit() {
+   this.label = this.album.type || this.label;  
   }
 
   toggleSelected(){
