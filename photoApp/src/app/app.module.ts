@@ -5,27 +5,20 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { AlbumComponent } from './album/album.component';
-import { AlbumCardComponent } from './album/album-card.component';
-import { AlbumFormComponent } from './album/album-form.component';
+import { AlbumModule } from './album/album.module'
 import { AlbumService } from './album/album.service';
-import { AlbumDetailComponent } from './album/album-detail.component';
-import { AlbumListComponent } from './album/album-list.component'
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
-    AlbumComponent,
-    AlbumCardComponent,
-    AlbumFormComponent,
-    AlbumDetailComponent,
-    AlbumListComponent
+    NavComponent 
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AlbumModule
   ],
   providers: [
     //{provide: AlbumService, useClass: ExtendedAlbumService }
