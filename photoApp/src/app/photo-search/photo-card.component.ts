@@ -10,25 +10,25 @@ import { Component, OnInit, Input } from '@angular/core';
     </div>
     
   `,
-  styles: [
-  `
-  :host(){
-      flex: 0 0 31%;
+  styles: [`
+    :host(){
+      flex: 0 0 31% !important;
+      margin-bottom: 0.625rem  !important;
       overflow:hidden;
     }
-  :host():hover .card-img-overlay{
+
+    :host():hover .card-img-overlay{
       top: 100%;
-    }    
-  .card-img-overlay{
+    }
+    
+    .card-img-overlay{
       background: rgba(0,0,0,0.8);
       top:70%;
       color: #fff;
       font-size: 1em !important;
       transition: .2s top ease-out;
-    }    
-  
-  `
-  ]
+    }
+  `]
 })
 export class PhotoCardComponent implements OnInit {
 

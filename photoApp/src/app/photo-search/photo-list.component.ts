@@ -1,17 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
+import { PhotoSearchService } from './photo-search.service'
+
 @Component({
   selector: 'photo-list',
   template: `
     <h4>Albumy</h4>
-    <div class="card-deck">
+    <div class="card-deck card-deck-justify">
         <photo-card [photo]="photo" class="card" *ngFor="let photo of photos"></photo-card>
     </div>
   `,
-  styles: []
+  styles: [`
+    //.card-deck-justify{
+    //  justify-content: space-between;
+    //}
+  `]
 })
 export class PhotoListComponent implements OnInit {
 
+/*
   photos = [
     {
       name: 'Album 1',
@@ -29,11 +36,20 @@ export class PhotoListComponent implements OnInit {
       name: 'Album 4',
       url:'http://localhost:8080/image/1'
     }
-  ];
+  ];*/
   
-  constructor() { }
+  photos = [];
+
+  constructor(private photoSearch: PhotoSearchService) {
+
+  }
 
   ngOnInit() {
+    this.photoSearch.getPhotos((photos)=>{
+      this.photos = photos;
+      
+      console.log(photos);
+    })
   }
 
 }

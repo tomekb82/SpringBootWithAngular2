@@ -1,53 +1,41 @@
 package com.example.demo.model;
 
+import com.example.demo.dto.ImageType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+
 /**
- * Created by tomasz.belina on 2017-07-14.
+ * Created by tomek on 14.07.17.
  */
+@Entity
+@NoArgsConstructor
+@Getter
 public class Image {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @Setter
     private String name;
+    @Setter
     private String url;
+    @Setter
     private String description;
+    @Setter
+    @Enumerated(EnumType.STRING)
     private ImageType type;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public ImageType getType() {
-        return type;
-    }
-
-    public void setType(ImageType type) {
-        this.type = type;
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

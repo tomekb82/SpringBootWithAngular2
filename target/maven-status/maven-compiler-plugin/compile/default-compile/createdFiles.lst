@@ -1,4 +1,6 @@
 com/example/demo/model/Image.class
-com/example/demo/model/ImageType.class
+com/example/demo/dto/ImageType.class
+com/example/demo/dto/Image.class
 com/example/demo/DemoApplication.class
+com/example/demo/repository/ImageRepository.class
 com/example/demo/controller/MyController.class
