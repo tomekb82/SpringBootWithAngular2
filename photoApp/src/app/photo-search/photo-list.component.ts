@@ -11,32 +11,12 @@ import { PhotoSearchService } from './photo-search.service'
     </div>
   `,
   styles: [`
-    //.card-deck-justify{
-    //  justify-content: space-between;
-    //}
+    .card-deck-justify{
+   //  justify-content: space-between;
+    }
   `]
 })
 export class PhotoListComponent implements OnInit {
-
-/*
-  photos = [
-    {
-      name: 'Album 1',
-      url:'http://localhost:8080/image/1'
-    },
-    {
-      name: 'Album 2',
-      url:'http://localhost:8080/image/2'
-    },
-    {
-      name: 'Album 3',
-      url:'http://localhost:8080/image/1'
-    },
-    {
-      name: 'Album 4',
-      url:'http://localhost:8080/image/1'
-    }
-  ];*/
   
   photos = [];
 
@@ -45,10 +25,10 @@ export class PhotoListComponent implements OnInit {
   }
 
   ngOnInit() {
+  
+    //this.photos = this.photoSearch.getDataPhotos();
     this.photoSearch.getPhotos((photos)=>{
       this.photos = photos;
-      
-      console.log(photos);
     })
   }
 

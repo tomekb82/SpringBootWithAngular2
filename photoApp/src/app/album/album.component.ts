@@ -20,7 +20,11 @@ export class AlbumComponent implements OnInit {
   }
 
   ngOnInit() {
-        this.albums = this.albumService.getAlbums();
+        //this.albums = this.albumService.getAlbums();
+        
+        this.albumService.getPhotos((albums)=>{
+      this.albums = albums;
+    })
   }
   
   selected = null;
@@ -45,6 +49,15 @@ export class AlbumComponent implements OnInit {
     this.selected = album;
   }
 
+  updateDB(){
+    this.albumService.updateDB(()=>{
+       this.albumService.getPhotos((albums)=>{
+            this.albums = albums;
+            console.log("po update");
+       });
+    });
+  }
+  
   createNew(){
     this.mode = "edit";
     let newAlbum = this.albumService.create();
@@ -53,7 +66,11 @@ export class AlbumComponent implements OnInit {
   }
   
   save(album){
-    this.albumService.save(album);
+    this.albumService.save(album, ()=>{
+       this.albumService.getPhotos((albums)=>{
+            this.albums = albums;
+       });
+    });
     this.selected = album;
     this.edited = Object.assign({},album); // kopia
   }

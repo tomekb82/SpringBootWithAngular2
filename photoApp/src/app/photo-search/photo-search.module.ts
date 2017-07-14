@@ -4,9 +4,11 @@ import { HttpModule } from '@angular/http'
 
 import { PhotoSearchComponent } from './photo-search.component';
 import { PhotoListComponent } from './photo-list.component';
-import { PhotoCardComponent } from './photo-card.component'
+import { PhotoCardComponent } from './photo-card.component';
 
-import { PhotoSearchService } from './photo-search.service'
+import { PhotoSearchService } from './photo-search.service';
+
+import photoData from './photo.data';
 
 @NgModule({
   imports: [
@@ -22,7 +24,8 @@ import { PhotoSearchService } from './photo-search.service'
     PhotoSearchComponent
   ],
   providers:[
-    PhotoSearchService
+    PhotoSearchService,
+    { provide: 'PhotoData', useValue: photoData }
   ]
 })
 export class PhotoSearchModule { }

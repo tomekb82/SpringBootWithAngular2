@@ -9,8 +9,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
             <input type="text" [(ngModel)]="album.name" class="form-control">
           </div> 
           <div class="form-group">
-            <label>Rok:</label>
-            <input type="number" [(ngModel)]="album.year" disabled class="form-control">
+            <label>URL:</label>
+            <input type="text" [(ngModel)]="album.url" class="form-control">
           </div>
           <div class="form-group">
             <label>Typ:</label>
@@ -19,9 +19,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                     {{label}}
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a (click)="setType('Dorosły')" class="dropdown-item" href="#">Dorosły</a>
-                        <a (click)="setType('Dziecko')" class="dropdown-item" href="#">Dziecko</a>
-                        <a (click)="setType('Natura')" class="dropdown-item" href="#">Natura</a>
+                        <a (click)="setType('ADULT')" class="dropdown-item" href="#">ADULT</a>
+                        <a (click)="setType('CHILD')" class="dropdown-item" href="#">CHILD</a>
+                        <a (click)="setType('NATURE')" class="dropdown-item" href="#">NATURE</a>
                   </div>
                 </div>
           </div>
@@ -51,10 +51,10 @@ export class AlbumFormComponent implements OnInit {
   label = "Wybierz";
   typeSelected = false;
 
-   conf = {
-   adult: '#F0E68C',
-   child: '#ADD8E6',
-   nature: '#90EE90'
+ conf = {
+   ADULT: '#F0E68C',
+   CHILD: '#ADD8E6',
+   NATURE: '#90EE90'
   }
 
   constructor() {
@@ -69,12 +69,12 @@ export class AlbumFormComponent implements OnInit {
   }
   
   getColor(label){
-    if(label === 'Dorosły'){
-       return this.conf.adult;
-    } else if(label === 'Dziecko'){
-       return this.conf.child;
-    } else if(label === 'Natura'){
-       return this.conf.nature;
+    if(label === 'ADULT'){
+       return this.conf.ADULT;
+    } else if(label === 'CHILD'){
+       return this.conf.CHILD;
+    } else if(label === 'NATURE'){
+       return this.conf.NATURE;
     }
   }
   

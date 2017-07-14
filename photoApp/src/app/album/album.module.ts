@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http'
 import { FormsModule } from '@angular/forms';
 
 import { AlbumComponent } from './album.component';
@@ -14,7 +15,8 @@ import albumData from './album.data'
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
   declarations: [
     AlbumComponent,

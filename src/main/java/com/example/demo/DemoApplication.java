@@ -10,32 +10,42 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringBootApplication
 public class DemoApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
 
+	private static final String PREFIX_URL = "http://localhost:8080/image/";
+	private static final String DIR = "images";
+
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	private static String getPath (String folder) {
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		URL url = loader.getResource(folder);
+		String path = url.getPath();
+		return path;
+	}
 
 	@Bean
 	public CommandLineRunner demo(ImageRepository repository) {
 		return (args) -> {
-			// save a couple of images
-			Image img1 = new Image();
-			img1.setName("image 1");
-			img1.setType(ImageType.NATURE);
-			img1.setUrl("http://localhost:8080/image/1");
 
-			Image img2 = new Image();
-			img2.setName("image 2");
-			img2.setType(ImageType.CHILD);
-			img2.setUrl("http://localhost:8080/image/2");
-
-			repository.save(img1);
-			repository.save(img2);
+			List<String> lista = new ArrayList<>();
+			Files.list(Paths.get(getPath(DIR)))
+					.forEach(e -> lista.add(e.getFileName().toString()));
+			lista.stream()
+					.map(fileName -> new Image(fileName, PREFIX_URL + fileName))
+					.forEach(e->repository.save(e));
 
 			// fetch all images
 			log.info("images found with findAll():");

@@ -28,6 +28,11 @@ public class Image {
     @Enumerated(EnumType.STRING)
     private ImageType type;
 
+    public Image(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
     @Override
     public String toString() {
         return "Image{" +

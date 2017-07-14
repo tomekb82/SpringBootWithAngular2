@@ -8,8 +8,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                 <tr>
                     <th> # </th>
                     <th> Nazwa </th>
-                     <th> Typ </th>
-                    <th> Rok </th>
+                    <th> Typ </th>
+                    <th> URL </th>
                     <th> Ulubiona </th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                     <td> {{ i + 1 }}. </td>
                     <td> {{album.name}} </td>
                     <td> {{album.type}} </td>
-                    <td> {{album.year}} </td>
+                    <td> {{album.url}} </td>
                     <td> <label><input type="checkbox" [(ngModel)]="album.favourite"
                     (click)="$event.stopPropagation();">Ulubiona</label> </td>
                 </tr>

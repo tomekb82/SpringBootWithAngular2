@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, Optional } from '@angular/core';
 import { Http, Response } from '@angular/http'
 
 @Injectable()
@@ -7,8 +7,8 @@ export class PhotoSearchService {
   photos = [ ]
 
   
-  constructor(private http: Http) {
-
+  constructor(private http: Http, @Optional() @Inject('PhotoData') photoData) {
+      this.photos = photoData === null ? this.photos : photoData ;
   }
 
   searchByName(name, callback){
@@ -27,10 +27,14 @@ export class PhotoSearchService {
   
     this.http.get(url)
     .subscribe((response:Response)=>{
-      let photos = response.json()
+      let photos = response.json();
       this.photos = photos;
       callback(photos)
     })
+  }
+  
+  getDataPhotos(){
+      return this.photos;
   }
 
 }
