@@ -14,7 +14,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let album of albums; let i = index"
+                <tr *ngFor="let album of albums | async; let i = index"
                     class="album-row" 
                    [ngClass]="{'table-active': selected == album}" 
                    [ngStyle]="{borderBottomColor:album.color}"

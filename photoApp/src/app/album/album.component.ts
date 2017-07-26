@@ -22,9 +22,11 @@ export class AlbumComponent implements OnInit {
   ngOnInit() {
         //this.albums = this.albumService.getAlbums();
         
-        this.albumService.getPhotos((albums)=>{
-      this.albums = albums;
-    })
+      //this.albumService.getPhotos((albums)=>{
+      //this.albums = albums;
+      //})
+      
+      this.albums = this.albumService.getPhotosStream();
   }
   
   selected = null;
@@ -34,7 +36,7 @@ export class AlbumComponent implements OnInit {
   
   mode="none";
   
-  albums = [];
+  albums;// = [];
   
   select(album){
     if(album !== this.selected){
@@ -51,10 +53,12 @@ export class AlbumComponent implements OnInit {
 
   updateDB(){
     this.albumService.updateDB(()=>{
-       this.albumService.getPhotos((albums)=>{
-            this.albums = albums;
-            console.log("po update");
-       });
+       //this.albumService.getPhotos((albums)=>{
+    //         this.albums = albums;
+    //        console.log("po update");
+      // });
+       
+       this.albums = this.albumService.getPhotosStream();
     });
   }
   
@@ -67,9 +71,10 @@ export class AlbumComponent implements OnInit {
   
   save(album){
     this.albumService.save(album, ()=>{
-       this.albumService.getPhotos((albums)=>{
-            this.albums = albums;
-       });
+       //this.albumService.getPhotos((albums)=>{
+        //    this.albums = albums;
+       //});
+       this.albums = this.albumService.getPhotosStream();
     });
     this.selected = album;
     this.edited = Object.assign({},album); // kopia

@@ -1,14 +1,19 @@
 import { Injectable, Inject, Optional } from '@angular/core';
-import { Http, Response } from '@angular/http'
+import { Http, Response } from '@angular/http';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class AlbumService {
 
   constructor(private http: Http, @Optional() @Inject('AlbumData') albumData) {
     this.albums = albumData === null? this.albums : albumData ;
+    
+    this.getPhotosRx();
   }
 
-  albums = [ ]
+  albums = [ ];
+  
+  albumsStream = new Subject();
 
   save(album, callback){
     let url = `http://localhost:8080/save`;
@@ -16,6 +21,7 @@ export class AlbumService {
     this.http.post(url, album)
     .subscribe((response:Response)=>{
       console.log("Zapisano dane.");
+      this.getPhotosRx();
       callback();
     });
     
@@ -58,6 +64,32 @@ export class AlbumService {
       }
       this.albums = albums;
       callback(albums);
+    });
+  }
+  
+  
+  getPhotosStream(){
+    return Observable
+          .from(this.albumsStream)
+          .startWith(this.albums)
+  }
+  
+  getPhotosRx(){
+
+    let url = `http://localhost:8080/images`
+  
+    this.http.get(url)
+    .map((response:Response)=>{
+      let albums = response.json();   
+      for(var item of albums){
+        item.color =  this.getColor(item.type);
+      }
+      
+      return albums;
+    })
+    .do(albmus =>{ this.albums = albmus })
+    .subscribe( albums => {
+      this.albumsStream.next(this.albums)
     });
   }
   

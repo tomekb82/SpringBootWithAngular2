@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: `
   
     <img class="card-img-top img-fluid" [src]="image">
-    <div class="card-img-overlay">
+    <div class="card-img-overlay" [ngStyle] = "{background: hexToRGB(color || defaultColor, 0.8)}">
       <h5 class="card-title">{{photo.name}}</h5>
     </div>
     
@@ -32,16 +32,35 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PhotoCardComponent implements OnInit {
 
+  defaultColor = '#000000';
+  
   @Input('photo')
   set setPhoto(photo){
     this.photo = photo;
     this.image = photo.url;
+    this.color = this.photo.type ? this.photo.color : this.defaultColor;
+    
+    console.log(this.photo);
   }
 
   photo
 
   image
   
+  color
+  
+  hexToRGB(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16),
+        g = parseInt(hex.slice(3, 5), 16),
+        b = parseInt(hex.slice(5, 7), 16);
+
+    if (alpha) {
+        return "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
+    } else {
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+}
+
   constructor() { }
 
   ngOnInit() {

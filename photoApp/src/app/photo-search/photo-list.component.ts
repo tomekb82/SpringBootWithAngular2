@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { PhotoSearchService } from './photo-search.service'
 
+import { AlbumService} from '../album/album.service';
+
+
 @Component({
   selector: 'photo-list',
   template: `
@@ -18,18 +21,29 @@ import { PhotoSearchService } from './photo-search.service'
 })
 export class PhotoListComponent implements OnInit {
   
-  photos = [];
+  photos ;//= [];
 
-  constructor(private photoSearch: PhotoSearchService) {
+  constructor(private photoSearch: PhotoSearchService, private albumService: AlbumService) {
 
   }
 
   ngOnInit() {
   
     //this.photos = this.photoSearch.getDataPhotos();
+    
     this.photoSearch.getPhotos((photos)=>{
+      //this.photos = photos;
+    });
+    
+    this.photoSearch.getPhotosStream().subscribe((photos)=>{
       this.photos = photos;
-    })
+    });
+    
+    this.albumService.getPhotosStream().subscribe((photos)=>{
+      this.photos = photos;
+    });
+    
+   
   }
 
 }
