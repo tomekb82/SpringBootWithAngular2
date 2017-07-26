@@ -61,8 +61,9 @@ public class MyController {
     @RequestMapping(value = "/image",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Image findByName(@RequestParam(required=true) String name) {
-        return (Image) imageRepository.findByName(name);
+    public List<Image> findByName(@RequestParam(required=true) String name) {
+        String nameWithExtension = name + ".jpg";
+        return (List<Image>) imageRepository.findByName(nameWithExtension);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

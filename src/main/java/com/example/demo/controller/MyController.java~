@@ -1,78 +1,83 @@
 package com.example.demo.controller;
 
-import java.io.IOException;
+import com.example.demo.model.Image;
+import com.example.demo.repository.ImageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import com.example.demo.model.Image;
-import com.example.demo.model.ImageType;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class MyController {
 
-    @RequestMapping(value = "/demo", method = RequestMethod.GET,
-            produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage() throws IOException {
+    private static final String PREFIX_URL = "http://localhost:8080/image/";
+    private static final String DIR = "images";
 
-        ClassPathResource imgFile = new ClassPathResource("images/demo.jpg");
-        byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
+    @Autowired
+    ImageRepository imageRepository;
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(bytes);
+    private static String getPath (String folder) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folder);
+        String path = url.getPath();
+        return path;
     }
-
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/findImage", method = RequestMethod.GET)
-    public Image getImageByName(@RequestParam(required=true) String name) {
-        Image img1 = new Image();
-        img1.setId(1L);
-        img1.setName(name);
-        img1.setType(ImageType.NATURE);
-        img1.setUrl("http://localhost:8080/image/1");
-        return img1;
+    @RequestMapping(value = "/update",
+            method = RequestMethod.GET)
+    public void updateDB() throws IOException {
+
+        List<String> lista = new ArrayList<>();
+        Files.list(Paths.get(getPath(DIR)))
+                .forEach(e -> lista.add(e.getFileName().toString()));
+        lista.stream()
+                .map(fileName -> new Image(fileName, PREFIX_URL + fileName))
+                .forEach(e->imageRepository.save(e));
     }
-    
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "save",
+            method = RequestMethod.POST,
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<?> save(@Valid @RequestBody Image image, HttpServletRequest request) {
+        imageRepository.save(image);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @RequestMapping(value = "/image",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Image> findByName(@RequestParam(required=true) String name) {
+        String nameWithoutExtension = name.split(".")[0];
+        return (List<Image>) imageRepository.findByName(nameWithoutExtension);
+    }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/images", method = RequestMethod.GET)
-    public List<Image> getImages() {
-        Image img1 = new Image();
-        img1.setId(1L);
-        img1.setName("image 1");
-        img1.setType(ImageType.NATURE);
-        img1.setUrl("http://localhost:8080/image/1");
-
-
-        Image img2 = new Image();
-        img2.setId(2L);
-        img2.setName("image 2");
-        img2.setType(ImageType.CHILD);
-        img2.setUrl("http://localhost:8080/image/2");
-
-        List<Image>  images = new ArrayList();
-        images.add(img1);
-        images.add(img2);
-
-       return images;
+    public List<Image> findAll() {
+       return (List<Image>) imageRepository.findAll();
     }
 
-    @RequestMapping(value = "/image/{id}", method = RequestMethod.GET,
+    @RequestMapping(value = "/image/{name}",
+            method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> getImage(@PathVariable int id) throws IOException {
+    public ResponseEntity<byte[]> getImage(@PathVariable String name) throws IOException {
 
-        ClassPathResource imgFile = new ClassPathResource("images/image-" + id + ".jpg");
+        ClassPathResource imgFile = new ClassPathResource("images/" + name + ".jpg");
         byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
 
         return ResponseEntity
