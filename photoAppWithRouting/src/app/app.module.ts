@@ -8,6 +8,24 @@ import { NavComponent } from './nav/nav.component';
 import { AlbumModule } from './album/album.module';
 import { PhotoSearchModule } from './photo-search/photo-search.module';
 
+
+import { RouterModule, Routes } from '@angular/router';
+import { PhotoSearchComponent } from './photo-search/photo-search.component'
+import { AlbumComponent } from './album/album.component'
+
+
+const routesConfig:Routes = [
+  {path:'', component: AlbumComponent },
+  {path:'photo', component: PhotoSearchComponent },
+  {path:'album', component: AlbumComponent },
+  {path:'**', redirectTo: 'album', pathMatch:'full' },
+]
+
+const routerModule = RouterModule.forRoot(routesConfig,{
+  enableTracing: true,
+  useHash: true
+})
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +36,8 @@ import { PhotoSearchModule } from './photo-search/photo-search.module';
     FormsModule,
     HttpModule,
     AlbumModule,
-    PhotoSearchModule
+    PhotoSearchModule,
+    routerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
