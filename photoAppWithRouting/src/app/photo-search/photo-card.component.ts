@@ -3,10 +3,11 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'photo-card',
   template: `
-  
+    <div *ngIf="image">
     <img class="card-img-top img-fluid" [src]="image">
     <div class="card-img-overlay" [ngStyle] = "{background: hexToRGB(color || defaultColor, 0.8)}">
       <h5 class="card-title">{{photo.name}}</h5>
+    </div>
     </div>
     
   `,
@@ -40,7 +41,7 @@ export class PhotoCardComponent implements OnInit {
     this.image = photo.url;
     this.color = this.photo.type ? this.photo.color : this.defaultColor;
     
-    console.log(this.photo);
+    console.log("PHOTO=" + this.photo);
   }
 
   photo

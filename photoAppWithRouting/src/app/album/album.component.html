@@ -1,4 +1,5 @@
-<div class="row mt-1">
+
+  <div class="row mt-1">
    
     <div class="col-md-7 col-xs">
      
@@ -7,35 +8,16 @@
       <app-album-list [albums]="albums" [selected]="selected" (selected)="select($event) "></app-album-list>
       
       <div class="form-group">
-        <button class="btn btn-success float-md-right float-xs-right"     (click)="createNew($event)">Nowy album</button>
+        <button class="btn btn-success float-md-right float-xs-right"  [routerLink]="['new']" >Nowy album</button>
       </div>
       
     </div>
     
     <div class="col-md-5 col-xs">
-     
-        <div [ngSwitch]="mode">
-     
-            <app-album-card title="Album" *ngSwitchDefault> 
-                <p>Wybierz <b>album</b>!</p>
-            </app-album-card>
-         
-            <app-album-card 
-               title="Album {{selected.name}}" 
-               message="Wybrany album" 
-               [color]="selected.color" 
-               *ngSwitchCase="'selected'"> 
-                <app-album-detail [album]="selected" (edit)="edit($event)"></app-album-detail>
-            </app-album-card>
-            
-            <app-album-card 
-                title="Album {{selected.name}} - edycja" 
-                message="Opis albumu" 
-                [color]="selected.color"
-                *ngSwitchCase="'edit'">
-                <app-album-form [album]="edited" (saved)="save($event)"></app-album-form>
-            </app-album-card>
-              
-        </div>  
+        
+        <app-album-card title="Album">
+            <router-outlet></router-outlet>
+        </app-album-card>
+        
     </div>
 </div>

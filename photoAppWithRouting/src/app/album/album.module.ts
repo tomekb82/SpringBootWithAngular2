@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http'
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 /* routing */
 import { routerModule } from './album.routing';
@@ -13,6 +13,8 @@ import { AlbumFormComponent } from './album-form.component';
 import { AlbumDetailComponent } from './album-detail.component';
 import { AlbumListComponent } from './album-list.component';
 
+import {PhotoSearchModule} from '../photo-search/photo-search.module';
+
 /* services */
 import { AlbumService } from './album.service';
 import albumData from './album.data';
@@ -21,8 +23,10 @@ import albumData from './album.data';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
-    routerModule
+    routerModule,
+    PhotoSearchModule
   ],
   declarations: [
     AlbumComponent,

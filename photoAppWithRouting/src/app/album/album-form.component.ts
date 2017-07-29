@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlbumService } from './album.service'
 
 @Component({
   selector: 'app-album-form',
   template: `
-        <div class="card-block">
+        <div class="card-block" *ngIf="album">
           <div class="form-group">
             <label>Nazwa:</label>
             <input type="text" [(ngModel)]="album.name" class="form-control">
@@ -19,9 +21,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                     {{label}}
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a (click)="setType('ADULT')" class="dropdown-item" href="#">ADULT</a>
-                        <a (click)="setType('CHILD')" class="dropdown-item" href="#">CHILD</a>
-                        <a (click)="setType('NATURE')" class="dropdown-item" href="#">NATURE</a>
+                        <a (click)="setType('ADULT')" class="dropdown-item" >ADULT</a>
+                        <a (click)="setType('CHILD')" class="dropdown-item" >CHILD</a>
+                        <a (click)="setType('NATURE')" class="dropdown-item" >NATURE</a>
                   </div>
                 </div>
           </div>
@@ -29,6 +31,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
             <label>
             <input type="checkbox" [(ngModel)]="album.favourite"> Favourite</label>
           </div>
+          <ng-content></ng-content>
           <div class="form-group">
             <button class="btn btn-success float-md-right float-xs-right" (click)="save(album)">Zapisz</button>
             </div>
@@ -38,16 +41,17 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AlbumFormComponent implements OnInit {
 
-  @Input()
   album;
   
-  @Output('saved')
-  emitter = new EventEmitter();
-
   save(album){
-    this.emitter.emit(album);
+    this.albumService.save(album, () => {
+       this.router.navigate(['album',album.name.split('.')[0]]);
+       }
+    );
+    
   }
   
+
   label = "Wybierz";
   typeSelected = false;
 
@@ -57,11 +61,36 @@ export class AlbumFormComponent implements OnInit {
    NATURE: '#90EE90'
   }
 
-  constructor() {
- }
+ constructor(private albumService:AlbumService,
+              private activeRoute: ActivatedRoute,
+              private router:Router) { }
 
   ngOnInit() {
-   this.label = this.album.type || this.label;  
+   this.label = this.album ? (this.album.type || this.label) : '';  
+   
+   
+   /*let name = this.activeRoute.snapshot.params['name'];
+    console.log(name)
+    if(name){
+        this.albumService.searchByName(name, album => {
+        this.album = album[0];
+        });
+    }*/
+    
+    
+    this.activeRoute.params.subscribe(params => {
+        let name = params['name'];
+        if(name){
+          this.albumService.searchByName(name, album => {
+                this.album = Object.assign({},album[0]);
+            });
+        }else{
+            this.album = this.albumService.create()
+        }
+    
+      })
+
+    
   }
 
   toggleSelected(){

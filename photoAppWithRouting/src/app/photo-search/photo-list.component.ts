@@ -8,9 +8,10 @@ import { AlbumService} from '../album/album.service';
 @Component({
   selector: 'photo-list',
   template: `
-    <h4>Albumy</h4>
     <div class="card-deck card-deck-justify">
-        <photo-card [photo]="photo" class="card" *ngFor="let photo of photos"></photo-card>
+        <photo-card [photo]="photo" class="card"
+        [routerLink]="[photo.name.split('.')[0]]"
+        *ngFor="let photo of photos"></photo-card>
     </div>
   `,
   styles: [`

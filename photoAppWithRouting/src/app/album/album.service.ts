@@ -27,6 +27,17 @@ export class AlbumService {
     
   }
 
+searchByName(name, callback){
+    let url = `http://localhost:8080/image?name=${name}`
+  
+    this.http.get(url)
+    .subscribe((response:Response)=>{
+      let albums = response.json()
+      this.albums = albums;
+      callback(albums)
+    })
+  }
+  
   create(){
     var newAlbum = {
         name: '',

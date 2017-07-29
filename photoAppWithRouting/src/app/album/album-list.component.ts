@@ -18,7 +18,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
                     class="album-row" 
                    [ngClass]="{'table-active': selected == album}" 
                    [ngStyle]="{borderBottomColor:album.color}"
-                    (click)="select(album)"        >
+                   (mouseover) = select(album)
+                   [routerLink]="[album.name.split('.')[0]]">
                     <td> {{ i + 1 }}. </td>
                     <td> {{album.name}} </td>
                     <td> {{album.type}} </td>

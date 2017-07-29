@@ -31,7 +31,8 @@ import { routerModule } from './photo-search.routing'
     PhotoSearchFormComponent
   ],
   exports:[
-    PhotoSearchComponent
+    PhotoSearchComponent,
+    PhotoCardComponent
   ],
   providers:[
     PhotoSearchService,
