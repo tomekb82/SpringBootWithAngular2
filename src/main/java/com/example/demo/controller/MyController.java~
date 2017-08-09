@@ -62,8 +62,8 @@ public class MyController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Image> findByName(@RequestParam(required=true) String name) {
-        String nameWithoutExtension = name.split(".")[0];
-        return (List<Image>) imageRepository.findByName(nameWithoutExtension);
+        String nameWithExtension = name + ".jpg";
+        return (List<Image>) imageRepository.findByName(nameWithExtension);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")

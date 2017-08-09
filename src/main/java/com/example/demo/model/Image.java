@@ -27,6 +27,8 @@ public class Image {
     @Setter
     @Enumerated(EnumType.STRING)
     private ImageType type;
+    @Setter
+    private boolean favourite;
 
     public Image(String name, String url) {
         this.name = name;
