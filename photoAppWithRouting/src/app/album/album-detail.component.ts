@@ -10,9 +10,11 @@ import { AlbumService } from './album.service'
     <p>Wybierz <b>album</b>!</p>
   </div>
   <div *ngIf="album">
-    <h3 class="card-title">{{album.name}}</h3>
-    <div class="form-group">
+    <div class="form-group"[ngStyle] = "{background: hexToRGB(album.color, 0.8)}">
       <photo-card [photo]="album" class="card"></photo-card>
+      <p class="card-text"><b>Nazwa pliku:</b> {{album.name}}</p>
+      <p class="card-text"><b>Url:</b> {{album.url}}</p>
+      <p class="card-text"><b>Typ:</b> {{album.type}}</p>
       <button class="btn btn-success float-md-right float-xs-right" (click)="edit(album)">Edytuj</button>
     </div>
   </div>
@@ -33,13 +35,23 @@ export class AlbumDetailComponent implements OnInit {
               private router:Router) { 
   }
 
+hexToRGB(hex, alpha) {
+  return this.albumService.hexToRGB(hex,alpha);
+
+}
   ngOnInit() {
   
     this.activeRoute.params.subscribe(params => {
         let name = params['name'];
         if(name){
           this.albumService.searchByName(name, album => {
-            this.album = album[0];
+            if(album){
+              this.album = album[0];
+              this.album.color =  this.albumService.getColor(this.album.type);
+              
+              console.log("A=");
+              console.log(this.album);
+            }
             });
         }
     });

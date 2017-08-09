@@ -3,6 +3,8 @@
    
     <div class="col-md-7 col-xs">
      
+     <div #info_id style="width:100%"></div>
+      
        <button class="btn btn-success float-xs-left"     (click)="updateDB()">Odśwież</button>
        
       <app-album-list [albums]="albums" [selected]="selected" (selected)="select($event) "></app-album-list>

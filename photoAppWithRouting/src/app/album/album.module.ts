@@ -19,6 +19,10 @@ import {PhotoSearchModule} from '../photo-search/photo-search.module';
 import { AlbumService } from './album.service';
 import albumData from './album.data';
 
+
+import {AlbumTypePipe} from './album.filter';
+import {OrderByPipe} from './album.orderBy';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +37,9 @@ import albumData from './album.data';
     AlbumCardComponent,
     AlbumFormComponent,
     AlbumDetailComponent,
-    AlbumListComponent
+    AlbumListComponent,
+    AlbumTypePipe,
+    OrderByPipe
   ],
   exports:[
     AlbumComponent

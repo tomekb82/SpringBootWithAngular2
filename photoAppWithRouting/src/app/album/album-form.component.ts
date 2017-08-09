@@ -6,14 +6,33 @@ import { AlbumService } from './album.service'
   selector: 'app-album-form',
   template: `
         <div class="card-block" *ngIf="album">
+        
+        <form #formRef="ngForm" novalidate="true" (ngSubmit)="save(formRef.valid, album)">
+     
           <div class="form-group">
             <label>Nazwa:</label>
-            <input type="text" [(ngModel)]="album.name" class="form-control">
+            <input type="text" #nameRef="ngModel" required minlength="3" [(ngModel)]="album.name" name="name" class="form-control">
+            <div class="has-danger" *ngIf="nameRef.touched || nameRef.dirty || formRef.submitted">
+              <div class="form-control-feedback" 
+                    *ngIf="nameRef.errors?.required">
+                    To pole jest wymagane
+              </div>
+              <div class="form-control-feedback" 
+                    *ngIf="nameRef.errors?.minlength">
+                    To pole musi mieć przynajmniej {{nameRef.errors.minlength.requiredLength}} znaki
+              </div>
+            </div>
           </div> 
           <div class="form-group">
             <label>URL:</label>
-            <input type="text" [(ngModel)]="album.url" class="form-control">
+            <input type="text" [(ngModel)]="album.url" class="form-control" disabled>
           </div>
+          
+          <div class="form-group">
+            <label>Opis:</label>
+            <textarea #descriptionRef="ngModel" [(ngModel)]="album.description" name="description" maxlength="200" class="form-control"></textarea>
+          </div>
+          
           <div class="form-group">
             <label>Typ:</label>
              <div class="dropdown" [class.show]="typeSelected">
@@ -27,23 +46,63 @@ import { AlbumService } from './album.service'
                   </div>
                 </div>
           </div>
+         
+          
           <div class="form-group">
-            <label>
-            <input type="checkbox" [(ngModel)]="album.favourite"> Favourite</label>
+            <label> Kategoria select: </label>
+            <select class="form-control" [(ngModel)]="album.category" name="category">
+              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
           </div>
+           <div class="form-group">
+            <label> Kategoria radio: </label>
+            <div *ngFor="let categoryRadio of categories">
+              <label class="form-ckeck-input">
+                <input type="radio" [(ngModel)]="album.categoryRadio" name="categoryRadio" [value]="categoryRadio"> {{categoryRadio}} 
+              </label>
+            </div>
+          </div> 
+          
+           <div class="form-group">
+            <label><input type="checkbox" [(ngModel)]="album.favourite" name="favourite"> 
+            Favourite</label>
+          </div>
+          
+          
           <ng-content></ng-content>
           <div class="form-group">
-            <button class="btn btn-success float-md-right float-xs-right" (click)="save(album)">Zapisz</button>
+            <button class="btn btn-success float-md-right float-xs-right" type="submit">Zapisz</button>
             </div>
+            
+        </form>    
+            
         </div>  
   `,
-  styles: []
+  styles: [
+  `
+    input.ng-dirty.ng-invalid, 
+    textarea.ng-dirty.ng-invalid,
+    input.ng-touched.ng-invalid, 
+    textarea.ng-touched.ng-invalid{
+      border: 1px solid red;
+    }
+  `
+    
+  ]
 })
 export class AlbumFormComponent implements OnInit {
 
   album;
   
-  save(album){
+  categories = [
+    'ADULT','CHILD','NATURE'
+  ]
+  
+  save(valid, album){
+    if(!valid){
+      return;
+    }
+    
     this.albumService.save(album, () => {
        this.router.navigate(['album',album.name.split('.')[0]]);
        }
@@ -66,8 +125,6 @@ export class AlbumFormComponent implements OnInit {
               private router:Router) { }
 
   ngOnInit() {
-   this.label = this.album ? (this.album.type || this.label) : '';  
-   
    
    /*let name = this.activeRoute.snapshot.params['name'];
     console.log(name)
@@ -83,6 +140,7 @@ export class AlbumFormComponent implements OnInit {
         if(name){
           this.albumService.searchByName(name, album => {
                 this.album = Object.assign({},album[0]);
+                this.label = this.album ? (this.album.type || this.label) : '';  
             });
         }else{
             this.album = this.albumService.create()
