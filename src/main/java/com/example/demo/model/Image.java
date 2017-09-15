@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.example.demo.dto.ImageType;
+import com.example.demo.dto.AlbumType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,10 +25,11 @@ public class Image {
     @Setter
     private String description;
     @Setter
-    @Enumerated(EnumType.STRING)
-    private ImageType type;
-    @Setter
     private boolean favourite;
+    @Setter
+    @ManyToOne
+    @JoinColumn(name="ALBUM_ID")
+    private Album album;
 
     public Image(String name, String url) {
         this.name = name;
@@ -42,7 +43,6 @@ public class Image {
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
                 ", description='" + description + '\'' +
-                ", type=" + type +
                 '}';
     }
 }

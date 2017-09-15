@@ -1,6 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.dto.ImageType;
+import com.example.demo.config.SwaggerConfig;
 import com.example.demo.model.Image;
 import com.example.demo.repository.ImageRepository;
 import org.slf4j.Logger;
@@ -9,8 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
-import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
+@Import(SwaggerConfig.class)
 public class DemoApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(DemoApplication.class);
@@ -39,7 +40,7 @@ public class DemoApplication {
 	@Bean
 	public CommandLineRunner demo(ImageRepository repository) {
 		return (args) -> {
-
+			// Images
 			List<String> lista = new ArrayList<>();
 			Files.list(Paths.get(getPath(DIR)))
 					.forEach(e -> lista.add(e.getFileName().toString()));

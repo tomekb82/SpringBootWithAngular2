@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import com.example.demo.dto.AlbumType;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,12 +17,14 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
+@ApiModel(description = "Album eniity")
 public class Album {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     @Setter
+    @ApiModelProperty(notes = "Album name")
     private String name;
     @Setter
     private String description;

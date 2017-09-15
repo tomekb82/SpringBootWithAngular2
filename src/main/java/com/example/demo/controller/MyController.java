@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Image;
+import com.example.demo.repository.AlbumRepository;
 import com.example.demo.repository.ImageRepository;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/my")
 public class MyController {
 
     private static final String PREFIX_URL = "http://localhost:8080/image/";
@@ -57,6 +62,10 @@ public class MyController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Get album by name", nickname = "Get album by named")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "Album name", required = true, dataType = "String", paramType = "request")
+    })
     @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/image",
             method = RequestMethod.GET,
@@ -72,6 +81,10 @@ public class MyController {
        return (List<Image>) imageRepository.findAll();
     }
 
+    @ApiOperation(value = "Get album by name", nickname = "Get album by named")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "Album name", required = true, dataType = "String", paramType = "path")
+    })
     @RequestMapping(value = "/image/{name}",
             method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)

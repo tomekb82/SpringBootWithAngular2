@@ -14,6 +14,5 @@ public class Image {
     private String name;
     private String url;
     private String description;
-    private ImageType type;
     private boolean favourite;
 }
