@@ -5,12 +5,9 @@ package com.example.demo.utility;
  */
 public class EnumUtility {
 
-    public static <T extends Enum<T>> T getEnumFromString(Class<T> c, String string) {
+    public static <T extends Enum<T>> T getEnumFromString(Class<T> c, String string) throws IllegalArgumentException{
         if( c != null && string != null ) {
-            try {
-                return Enum.valueOf(c, string.trim().toUpperCase());
-            } catch(IllegalArgumentException ex) {
-            }
+            return Enum.valueOf(c, string.trim().toUpperCase());
         }
         return null;
     }
